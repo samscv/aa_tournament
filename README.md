@@ -2,43 +2,32 @@
 
 ## Overview
 
-`adaptive_mirror_fox` is an intelligent and context-aware strategy designed for the **Iterated Prisoner's Dilemma Tournament**. It balances friendliness, adaptability, and strategic retaliation to maximize total score in both short and long games. The strategy evolves its behavior based on the opponent's past moves and dynamically chooses who to play against in Round 3, aiming to create the highest scoring opportunities.
-
-The algorithm strictly follows all requirements and constraints provided for the tournament and is divided into two parts:
-- **Round 1 & 2**: Implements the `strategy(...)` function that responds to each move.
-- **Round 3**: Implements the `strategy_round_3(...)` function which includes both the move and opponent selection.
+`adaptive_mirror_fox` is a strategic algorithm created for the Iterated Prisoner's Dilemma tournament (Part 1). It is designed to promote cooperation while defending itself intelligently when facing betrayal. The algorithm is written in pure Python and fully respects all tournament rules, including runtime, memory usage, and input constraints.
 
 ---
 
-## Strategy Logic – `strategy()`
+## How the algorithm works
 
-This function governs decision-making for **Rounds 1 and 2**.
+The algorithm starts by cooperating on the first move. It monitors the opponent's behavior throughout the game and adapts its own response accordingly:
 
-### Behavior:
-1. **First move**: Always cooperates to encourage mutual benefit.
-2. **Revenge**: If the opponent defects **twice in a row**, it retaliates with a defection (a sign of malicious intent).
-3. **Forgiveness**: If after being punished, the opponent **cooperates twice in a row**, the strategy forgives and cooperates again.
-4. **Statistics-based logic**:
-    - If opponent is **≥70% cooperative** → cooperate (trust is earned).
-    - If opponent is **>40% defecting** → mirror their last move (caution mode).
-5. **Default**: If none of the above apply → cooperate (hopeful default).
+- If the opponent defects twice in a row, the algorithm retaliates by defecting.
+- If the opponent cooperates twice after being punished, the algorithm forgives and returns to cooperation.
+- If the opponent is at least 70% cooperative overall, the algorithm continues to cooperate.
+- If the opponent defects more than 40% of the time, the algorithm mirrors their last move.
+- In all other cases, it defaults to cooperation.
 
-This makes it **cooperative yet cautious**, allowing it to thrive with trustworthy opponents and defend itself against hostile ones.
+This adaptive approach helps the algorithm earn points efficiently with trustworthy players while avoiding exploitation by hostile ones.
 
 ---
 
-## Strategy Logic – `strategy_round_3()`
+## Character
 
-This function governs behavior for **Round 3**, where opponent selection is part of the strategy.
+The strategy is **neat** — it never defects first and favors cooperation by default. It punishes repeated betrayal but is also capable of forgiving and rebuilding trust.
 
-### Behavior:
-- **Same adaptive logic as `strategy()`** is used for deciding the move.
-- **Opponent Selection**:
-    - Picks from available opponents who have not yet reached 200 rounds.
-    - If all opponents are exhausted (all reached 200), continues with the current one.
-    - Prioritizes keeping the match alive with those who still allow scoring.
+---
 
-This ensures:
-- **Maximum utilization** of the total available rounds (1000 total)
-- **Flexible pairing**: Works well with nice algorithms and avoids wasting rounds on consistently hostile ones.
+## File Contents
+
+- `adaptive_mirror_fox.py`: Contains the `strategy()` function used in Round 1 and Round 2 of the tournament.
+
 
